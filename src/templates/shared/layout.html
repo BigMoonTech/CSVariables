@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+              rel="stylesheet">
+
+        <link rel="stylesheet" href="/static/css/site_wide.css">
+
+        {% block additional_css %}{% endblock %}
+
+        <title>{% block title %}Variable Evaluator{% endblock %}</title>
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-md">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" href="/">
+                    <img src="/static/img/logo.jpg" alt="" width="66" height="58">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbar" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About</a>
+                        </li>
+
+                        {% if user_id %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/account">Account</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/account/logout" id="last_nav_link">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/account/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/account/register" id="last_nav_link">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            {% block main_content %}{% endblock %}
+        </div>
+
+        <footer>
+            <div class="container">
+                copyright &copy; Josh Aguilar
+            </div>
+        </footer>
+
+        <script src="/static/js/bootstrap.bundle.js"></script>
+
+        {% block additional_js %}{% endblock %}
+    </body>
+</html>
