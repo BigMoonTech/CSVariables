@@ -12,7 +12,7 @@ auth_cookie_name = 'csve_user'
 def set_auth(response: Response, user_id: int):
     hash_val = __hash_text(str(user_id))
     val = "{}:{}".format(user_id, hash_val)
-    response.set_cookie(auth_cookie_name, val, httponly=True, samesite='Lax')
+    response.set_cookie(auth_cookie_name, val, httponly=True, secure=True, samesite='Lax')
 
 
 def __hash_text(text: str) -> str:
@@ -21,7 +21,9 @@ def __hash_text(text: str) -> str:
 
 
 def __add_cookie_callback(_, response: Response, name: str, value: str):
-    response.set_cookie(name, value, max_age=timedelta(days=30), httponly=True, samesite='Lax')
+    # todo: do I need this callback for cookie notifications?
+    print('cookie callback called')
+    response.set_cookie(name, value, max_age=timedelta(days=30), httponly=True, secure=True, samesite='Lax')
 
 
 def get_user_id_via_auth_cookie(request: Request) -> Optional[int]:

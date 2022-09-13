@@ -27,6 +27,8 @@ def index():
 @response(template_file='account/register.html')
 def register_get():
     viewmodel = RegisterViewModel()
+    if viewmodel.user_id:
+        return redirect('/')
     return viewmodel.to_dict()
 
 
@@ -44,7 +46,7 @@ def register_post():
         viewmodel.error = 'The account could not be created.'
         return viewmodel.to_dict()
 
-    resp = redirect('/account/login')
+    resp = redirect('/')
     cookie_auth.set_auth(resp, user.id)
 
     return resp
@@ -56,7 +58,13 @@ def register_post():
 @blueprint.route('/account/login', methods=['GET'])
 @response(template_file='account/login.html')
 def login_get():
-    return {}
+    viewmodel = LoginViewModel()
+
+    # if user is already logged in, redirect to account index page
+    if viewmodel.user_id:
+        return redirect('/')
+
+    return viewmodel.to_dict()
 
 
 @blueprint.route('/account/login', methods=['POST'])
@@ -76,7 +84,7 @@ def login_post():
 
     resp = redirect('/')
     cookie_auth.set_auth(resp, user.id)
-
+    print(f'response: {resp}')
     return resp
 
 
