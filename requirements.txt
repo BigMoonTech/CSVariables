@@ -1,2 +1,6 @@
 Flask~=2.2.2
 Werkzeug~=2.2.2
+SQLAlchemy~=1.4.41
+openai~=0.23.0
+requests~=2.28.1
+passlib~=1.7.4

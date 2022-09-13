@@ -1,7 +1,89 @@
+html {
+  padding: env(safe-area-inset);
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.btn-custom {
+    background-color: #533483;
+    color: #E94560;
+    border-color: #E94560;
+}
+
+.btn-custom:hover, .btn-custom:focus {
+    background-color: #E94560;
+    color: #533483;
+    border-color: #533483;
+    box-shadow: none;
+}
+
+.btn-custom-2 {
+    background-color: #E94560;
+    color: #e5d2d7;
+    border-color: #da3954;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.btn-custom-2:hover, .btn-custom-2:focus {
+    background-color: #c1deec;
+    color: #f1f3f6;
+    border-color: #93c5d9;
+    border-style: solid;
+    box-shadow: none;
+}
+
 footer {
-    background-color: blue;
-    border-top: 1px solid black;
-    margin-top: 5px;
+    background-color: #16213E;
+    color: #E94560;
+    border-top: outset 1px #0F3460;
     margin-bottom: 0;
-    padding: 5px 0;
+}
+
+.grow-sm-button, .grow-lg-button {
+    transition: all .2s ease-in-out;
+}
+
+.grow-sm-button:hover {
+    transform: scale(1.04);
+}
+
+.grow-lg-button:hover {
+    transform: scale(1.01);
+}
+
+nav {
+    background-color: #16213E;
+}
+
+.navbar-toggler {
+    border-color: #E94560;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("/static/img/navbar_toggler.svg");
+}
+
+.nav-link {
+    color: #E94560;
+}
+
+.nav-link:hover {
+    color: #533483;
+}
+
+.nav-item {
+    margin: 0.5rem;
+}
+
+section {
+    margin: 0;
 }

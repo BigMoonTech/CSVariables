@@ -12,6 +12,7 @@
 # Additional user-specified stuff
 *.pkl
 *.csv
+*.sqlite
 .idea
 .python-version
 .venv

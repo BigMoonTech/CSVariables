@@ -1,0 +1,78 @@
+{% extends "shared/layout.html" %}
+
+{% block additional_css %}
+    <link href="/static/css/account.css" rel="stylesheet">
+{% endblock %}
+
+{% block additional_js %}{% endblock %}
+
+{% block main_content %}
+    <section class="vh-100" id="register-section">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong">
+                        <div class="card-body p-5">
+
+                            <form action="" method="POST">
+
+                                <div class="text-center">
+                                    <h3 class="mb-5">Register</h3>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="nameInput">Name</label>
+                                    <input type="text" id="nameInput" name="name"
+                                           class="form-control form-control-lg"
+                                           aria-describedby="nameHelp"
+                                           value="{{ name }}"
+                                           required/>
+                                    <div id="nameHelp" class="form-text">
+                                        Please enter your name.
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="emailInput">Email</label>
+                                    <input type="email" id="emailInput" name="email"
+                                           class="form-control form-control-lg"
+                                           aria-describedby="emailHelp"
+                                           value="{{ email }}"
+                                           required/>
+                                    <div id="emailHelp" class="form-text">
+                                        Please enter a valid email. (Your email will not be shared).
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="passwordInput">Password</label>
+                                    <input type="password" id="passwordInput" name="password"
+                                           class="form-control form-control-lg"
+                                           aria-describedby="passwordHelpBlock"
+                                           value="{{ password }}"
+                                           required/>
+                                    <div id="passwordHelpBlock" class="form-text">
+                                        Your password must be at least 6 characters long, contain letters and numbers,
+                                        and must not contain spaces, special characters, or emoji.
+                                    </div>
+                                </div>
+
+                                {% if error %}
+                                    <div class="error-msg">
+                                        {{ error }}
+                                    </div>
+                                {% endif %}
+
+                                <div class="text-center">
+                                    <button class="btn btn-primary btn-custom-2" type="submit">Register</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

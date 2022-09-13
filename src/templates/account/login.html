@@ -1,0 +1,59 @@
+{% extends "shared/layout.html" %}
+
+{% block additional_css %}
+    <link href="/static/css/account.css" rel="stylesheet">
+{% endblock %}
+
+{% block additional_js %}{% endblock %}
+
+{% block main_content %}
+    <section class="vh-100" id="register-section">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong">
+                        <div class="card-body p-5">
+
+                            <form action="" method="POST">
+
+                                <div class="text-center">
+                                    <h3 class="mb-5">Login</h3>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="emailInput">Email</label>
+                                    <input type="email" id="emailInput" name="email"
+                                           class="form-control form-control-lg"
+                                           aria-label="enter email"
+                                           value="{{ email }}"
+                                           required/>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="passwordInput">Password</label>
+                                    <input type="password" id="passwordInput" name="password"
+                                           class="form-control form-control-lg"
+                                           aria-label="enter password"
+                                           value="{{ password }}"
+                                           required/>
+                                </div>
+
+                                {% if error %}
+                                    <div class="error-msg">
+                                        {{ error }}
+                                    </div>
+                                {% endif %}
+
+                                <div class="text-center">
+                                    <button class="btn btn-primary btn-custom-2" type="submit">Login</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
