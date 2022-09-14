@@ -54,9 +54,11 @@ def register_blueprints():
     """Register Flask blueprints."""
     from src.views import home_views
     from src.views import account_views
+    from src.views import app_views
 
     app.register_blueprint(account_views.blueprint)
     app.register_blueprint(home_views.blueprint)
+    app.register_blueprint(app_views.blueprint)
 
 
 if __name__ == '__main__':

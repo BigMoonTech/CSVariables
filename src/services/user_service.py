@@ -47,6 +47,9 @@ def update_registered_user_calls(user_id: int):
         user.calls_made += 1
         user.remaining_monthly_calls -= 1
         session.commit()
+
+    # todo: reset the number of calls made if the month has changed
+
     session.close()
     return user if user else None
 

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" >
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <link href="/static/css/bootstrap.css" rel="stylesheet">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,9 +24,15 @@
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-fluid">
 
-                <a class="navbar-brand" href="/">
-                    <img src="/static/img/hand_icon.svg" alt="" width="66" height="58">
-                </a>
+                {% if user_id %}
+                    <a class="navbar-brand" href="/app">
+                        <img src="/static/img/hand_icon.svg" alt="" width="66" height="58">
+                    </a>
+                {% else %}
+                    <a class="navbar-brand" href="/">
+                        <img src="/static/img/hand_icon.svg" alt="" width="66" height="58">
+                    </a>
+                {% endif %}
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbar" aria-controls="navbarTogglerDemo02" aria-expanded="false"
@@ -36,11 +42,13 @@
 
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">About</a>
-                        </li>
-
                         {% if user_id %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/app">App</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about">About</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/account">Account</a>
                             </li>
@@ -48,6 +56,9 @@
                                 <a class="nav-link" href="/account/logout" id="last_nav_link">Logout</a>
                             </li>
                         {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about">About</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/account/login">Login</a>
                             </li>

@@ -17,6 +17,10 @@ blueprint = Blueprint('account', __name__, template_folder='templates')
 def index():
     # todo: complete the account index page
     viewmodel = IndexViewModel()
+
+    if viewmodel.user_id is None:
+        return redirect('/account/login')
+
     return viewmodel.to_dict()
 
 
@@ -28,7 +32,7 @@ def index():
 def register_get():
     viewmodel = RegisterViewModel()
     if viewmodel.user_id:
-        return redirect('/')
+        return redirect('/app')
     return viewmodel.to_dict()
 
 
@@ -46,7 +50,7 @@ def register_post():
         viewmodel.error = 'The account could not be created.'
         return viewmodel.to_dict()
 
-    resp = redirect('/')
+    resp = redirect('/app')
     cookie_auth.set_auth(resp, user.id)
 
     return resp
@@ -62,7 +66,7 @@ def login_get():
 
     # if user is already logged in, redirect to account index page
     if viewmodel.user_id:
-        return redirect('/')
+        return redirect('/app')
 
     return viewmodel.to_dict()
 
@@ -82,9 +86,8 @@ def login_post():
         viewmodel.error = 'Invalid email or password.'
         return viewmodel.to_dict()
 
-    resp = redirect('/')
+    resp = redirect('/app')
     cookie_auth.set_auth(resp, user.id)
-    print(f'response: {resp}')
     return resp
 
 

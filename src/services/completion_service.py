@@ -2,6 +2,7 @@ from typing import Optional, Union
 import src.db_models.db_session as db_session
 from src.db_models.completions import Completion
 from openai import Completion as ai_completion
+from src.helpers import bad_words
 
 
 def add_completion_to_db(resp: dict, prompt: str, ip_id: str = None, user_id: int = None):
@@ -69,12 +70,18 @@ def get_usage_total_tokens(completion: dict) -> int:
     """ Get the total tokens from the api response """
     return completion['usage']['total_tokens']
 
+# todo: - Add further validation to the prompt such as bad words
 
-# todo: add more validation to the completion
-
-def validate_prompt_len(prompt: str) -> Union[bool, str]:
+def valid_prompt_len(prompt: str) -> Union[bool, str]:
     """ Validate the completion prompt """
-    return None if len(prompt) <= 200 else 'Prompt too long'
+    return False if len(prompt) > 200 else True
+
+
+def has_no_profanity(prompt: str) -> bool:
+    """ Return False if the prompt contains a bad word """
+
+    banned_words = bad_words.get_bad_words()
+    return False if any(word in banned_words for word in prompt.split()) else True
 
 
 def get_completion_by_id(completion_id: int) -> Optional[Completion]:
