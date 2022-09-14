@@ -32,7 +32,7 @@ def index_post():
 
         viewmodel.resp_text = cs.get_choices_text(resp)
 
-        cs.add_completion_to_db(resp, viewmodel.prompt, viewmodel.ip_address, viewmodel.user_id)
+        cs.add_completion_to_db(resp, viewmodel.prompt, viewmodel.ip_address)
 
         # Update unregistered user table
         if us.update_unregistered_user_calls(viewmodel.ip_address) is None:

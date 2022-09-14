@@ -69,7 +69,7 @@ def register_post():
         return viewmodel.to_dict()
 
     resp = redirect('/app')
-    cookie_auth.set_auth(resp, user.id)
+    cookie_auth.set_auth(resp, user.uuid)
 
     return resp
 
@@ -105,7 +105,7 @@ def login_post():
         return viewmodel.to_dict()
 
     resp = redirect('/app')
-    cookie_auth.set_auth(resp, user.id)
+    cookie_auth.set_auth(resp, user.uuid)
     return resp
 
 

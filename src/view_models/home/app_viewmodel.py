@@ -1,5 +1,5 @@
 from src.services.completion_service import (
-    valid_prompt_len, has_no_profanity, get_completions_by_user_id, create_empty_completion
+    valid_prompt_len, has_no_profanity, get_completions_by_uuid, create_empty_completion
 )
 from src.view_models.shared.viewmodel_base import ViewModelBase
 

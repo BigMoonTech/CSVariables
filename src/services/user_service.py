@@ -1,12 +1,15 @@
 import re
+from uuid import uuid4
 from datetime import datetime
 from typing import Optional
-
 import src.db_models.db_session as db_session
 from src.db_models.users import User
 from src.db_models.completions import Completion
 from src.db_models.unregistered_users import UnregisteredUser
 from passlib.handlers.sha2_crypt import sha256_crypt as crypto
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 
 def find_user_by_email(email: str) -> Optional[User]:
@@ -19,6 +22,17 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
         return None
 
     user = User()
+    user.uuid = uuid4().hex
+
+    # check for a collision in the uuid
+    while find_user_by_uuid(user.uuid):
+        # log the collision
+        logger.warning(f'Collision when generating a uuid: {user.uuid}')
+        # if there is a collision, generate a new uuid
+        user.uuid = uuid4().hex
+
+    logger.info(f'Generated a new uuid: {user.uuid}')
+
     user.name = name
     user.email = email
 
@@ -42,7 +56,7 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
 def update_registered_user_calls(user_id: int):
     """ Update the number of calls made by a registered user """
     session = db_session.create_session()
-    user = session.query(User).filter(User.id == user_id).first()
+    user = session.query(User).filter(User.uuid == user_id).first()
     if user:
         user.calls_made += 1
         user.remaining_monthly_calls -= 1
@@ -111,14 +125,18 @@ def login_user(email: str, password: str) -> Optional[User]:
     return user
 
 
-def find_user_by_id(user_id: int) -> Optional[User]:
-    """ Find a user by their ID """
+def find_user_by_uuid(user_id: str) -> Optional[User]:
+    """ Find a user by their uuid """
     if user_id is None:
         return None
 
     session = db_session.create_session()
-    user = session.query(User).filter(User.id == user_id).first()
+    user = session.query(User).filter(User.uuid == user_id).first()
     session.close()
+
+    if user is None:
+        return None
+
     return user
 
 

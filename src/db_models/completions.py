@@ -21,8 +21,8 @@ class Completion(SqlAlchemyBase):
 
     # define the relationship to the user and unregistered user
     # a completion can have one user OR one unregistered user
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
-    ip_id = Column(Integer, ForeignKey('unregistered_users.id'), default=0, nullable=True)
+    user_id = Column(Integer, ForeignKey('users.uuid'), nullable=True)
+    ip_id = Column(Integer, ForeignKey('unregistered_users.ip_address'), default=0, nullable=True)
 
     registered_user = relationship('User', back_populates='completions')
     unregistered_user = relationship('UnregisteredUser', back_populates='completions')

@@ -7,7 +7,7 @@ from src.db_models.base_model import SqlAlchemyBase
 class User(SqlAlchemyBase):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    uuid = Column(String, nullable=False, unique=True, primary_key=True)
 
     name = Column(String, default='Emanon')
     email = Column(String, nullable=False, index=True, unique=True)

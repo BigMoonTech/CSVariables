@@ -7,9 +7,7 @@ from src.db_models.base_model import SqlAlchemyBase
 class UnregisteredUser(SqlAlchemyBase):
     __tablename__ = 'unregistered_users'
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-
-    ip_address = Column(String, nullable=False, index=True, unique=True)
+    ip_address = Column(String, nullable=False, index=True, unique=True, primary_key=True)
 
     created_date = Column(DateTime, default=datetime.now, index=True)
     free_calls = Column(Integer, default=3)

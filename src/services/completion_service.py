@@ -70,7 +70,7 @@ def get_usage_total_tokens(completion: dict) -> int:
     """ Get the total tokens from the api response """
     return completion['usage']['total_tokens']
 
-# todo: - Add further validation to the prompt such as bad words
+# todo: - Add further validation to the prompt such
 
 def valid_prompt_len(prompt: str) -> Union[bool, str]:
     """ Validate the completion prompt """
@@ -84,19 +84,13 @@ def has_no_profanity(prompt: str) -> bool:
     return False if any(word in banned_words for word in prompt.split()) else True
 
 
-def get_completion_by_id(completion_id: int) -> Optional[Completion]:
-    """ Get a completion by id """
-    session = db_session.create_session()
-    return session.query(Completion).filter(Completion.id == completion_id).first()
-
-
 def get_all_completions() -> list[Completion]:
     """ Get all completions """
     session = db_session.create_session()
     return session.query(Completion).all()
 
 
-def get_completions_by_user_id(user_id: int = None) -> Optional[list[Completion]]:
+def get_completions_by_uuid(user_id: int = None) -> Optional[list[Completion]]:
     """ Get all completions by user id """
     if user_id is None:
         return None

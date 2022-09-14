@@ -19,9 +19,9 @@ def get_ip_address() -> Optional[str]:
         ip = get('https://api.ipify.org').text
         print(f'User IP: {ip}')
 
-        if ip is None or ip == '':
+        if ip is None or ip.strip() == '':
             return None
-        return ip
+        return ip.strip()
 
     # todo: add more specific exceptions
     except:
