@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect
+from flask import Blueprint, redirect
 from src.infrastructure.view_modifier import response
 from src.view_models.home.app_viewmodel import AppViewModel
 from src.services import completion_service as cs
@@ -24,6 +24,7 @@ def app_post():
     """Handle requests for the application page."""
     viewmodel = AppViewModel()
     viewmodel.prompt = viewmodel.request_dict.query.strip()
+
     viewmodel.validate()
 
     if viewmodel.error is None:
@@ -40,6 +41,7 @@ def app_post():
         if us.update_registered_user_calls(viewmodel.user_id) is None:
             viewmodel.error = 'There was an error updating your remaining calls.'
             # todo: log this type of error
+
     else:
         viewmodel.resp_text = viewmodel.error
 

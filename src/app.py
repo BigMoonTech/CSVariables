@@ -1,5 +1,5 @@
 """Main app module."""
-
+import logging
 import os
 import sys
 import flask
@@ -12,6 +12,8 @@ sys.path.insert(0, folder)
 
 from src.db_models import db_session
 
+logging.basicConfig(filename='record.log', level=logging.DEBUG,
+                    format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 app = Flask(__name__)
 
 
@@ -28,6 +30,7 @@ def configure():
     # Configure OpenAI
     openai.api_key = os.getenv("OPENAI_API_KEY")
     if not openai.api_key:
+        app.logger.critical('OpenAi API key was not Found')
         return flask.abort(404)
     print("Configured OpenAI API key.")
 
@@ -52,6 +55,7 @@ def setup_db():
 
 def register_blueprints():
     """Register Flask blueprints."""
+    app.logger.info('Registering Blueprints')
     from src.views import home_views
     from src.views import account_views
     from src.views import app_views
@@ -59,6 +63,7 @@ def register_blueprints():
     app.register_blueprint(account_views.blueprint)
     app.register_blueprint(home_views.blueprint)
     app.register_blueprint(app_views.blueprint)
+    app.logger.info('Blueprints Registered')
 
 
 if __name__ == '__main__':

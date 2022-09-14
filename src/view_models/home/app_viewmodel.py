@@ -1,6 +1,6 @@
-from src.services import user_service
-from src.helpers import helper_functions as helpers
-from src.services.completion_service import valid_prompt_len, has_no_profanity
+from src.services.completion_service import (
+    valid_prompt_len, has_no_profanity, get_completions_by_user_id, create_empty_completion
+)
 from src.view_models.shared.viewmodel_base import ViewModelBase
 
 
@@ -9,7 +9,7 @@ class AppViewModel(ViewModelBase):
         super().__init__()
         # the value we will send to the textarea named output
         self.resp_text: str = ''
-        print('app model user id', self.user_id)
+
         if self.user_id is not None and self.user is not None:
             self.remaining_calls: int = self.user.remaining_monthly_calls
         else:
@@ -39,4 +39,5 @@ class AppViewModel(ViewModelBase):
         if not has_no_profanity(self.prompt):
             self.error = 'Cannot contain profanity.'
             return False
+
         return True

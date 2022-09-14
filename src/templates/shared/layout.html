@@ -49,12 +49,18 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/about">About</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/account">Account</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="/account" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Account
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><a class="dropdown-item" href="/account">Overview</a></li>
+                                    <li><a class="dropdown-item" href="/account/history">History</a></li>
+                                    <li><a class="dropdown-item" id="last_nav_link" href="/account/logout">Logout</a></li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/account/logout" id="last_nav_link">Logout</a>
-                            </li>
+
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="/about">About</a>

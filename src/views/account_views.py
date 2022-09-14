@@ -5,9 +5,27 @@ from src.services import user_service
 from src.view_models.account.register_viewmodel import RegisterViewModel
 from src.view_models.account.login_viewmodel import LoginViewModel
 from src.view_models.account.index_viewmodel import IndexViewModel
+from src.view_models.account.history_viewmodel import HistoryViewModel
 
 
 blueprint = Blueprint('account', __name__, template_folder='templates')
+
+
+# ################### HISTORY ####################################
+
+
+@blueprint.route('/account/history', methods=['GET'])
+@response(template_file='account/history.html')
+def history():
+    # todo: complete the history page
+    viewmodel = HistoryViewModel()
+    viewmodel.validate()
+
+    if viewmodel.user_id is None:
+        return redirect('/account/login')
+
+    return viewmodel.to_dict()
+
 
 # ################### INDEX ####################################
 

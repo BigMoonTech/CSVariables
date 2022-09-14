@@ -94,3 +94,30 @@ def get_all_completions() -> list[Completion]:
     """ Get all completions """
     session = db_session.create_session()
     return session.query(Completion).all()
+
+
+def get_completions_by_user_id(user_id: int = None) -> Optional[list[Completion]]:
+    """ Get all completions by user id """
+    if user_id is None:
+        return None
+
+    session = db_session.create_session()
+    completions = session.query(Completion).filter(Completion.user_id == user_id).all()
+    session.close()
+
+    if len(completions) == 0:
+        return create_empty_completion()
+
+    return completions
+
+
+def create_empty_completion() -> list[Completion]:
+    """ A fake completion for a new user's empty Dashboard """
+
+    completion = Completion()
+    completion.id = 0
+    completion.completion_id = 'No Data'
+    completion.prompt_text = 'No Data'
+    completion.response_text = 'No Data'
+    completion.total_tokens = 0
+    return [completion]

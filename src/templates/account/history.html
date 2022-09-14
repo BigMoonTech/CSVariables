@@ -1,0 +1,57 @@
+{% extends "shared/layout.html" %}
+{% block title %}History{% endblock %}
+{% block additional_css %}
+    <link href="/static/css/history.css" rel="stylesheet">
+{% endblock %}
+
+{% block additional_js %}
+    <!--suppress HtmlFormInputWithoutLabel -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="/static/js/helpers.js"></script>
+{% endblock %}
+
+{% block main_content %}
+
+    <!-- render the completions belonging to the user in a table -->
+    <section class="history mt-5">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>History</h1>
+
+                    {% if error %}
+                        <div class="text-danger text-center">{{ error }}</div>
+                    {% else %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Completion ID</th>
+                                    <th scope="col">Prompt</th>
+                                    <th scope="col">Response</th>
+                                    <th scope="col">Total Tokens Used</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for completion in completions %}
+                                    <tr>
+                                        <th scope="row">{{ completion.id }}</th>
+                                        <td>{{ completion.completion_id }}</td>
+                                        <td>{{ completion.prompt_text }}</td>
+                                        <td>{{ completion.response_text }}</td>
+                                        <td>{{ completion.total_tokens }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+{% endblock %}
