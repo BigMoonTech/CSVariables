@@ -18,7 +18,7 @@ def global_init(db_file: str):
         raise Exception('You must specify a db file.')
 
     # specify the db dialect and the database API
-    connection_str = 'sqlite:///' + db_file.strip()
+    connection_str = db_file.strip()
 
     # sqlalchemy engine
     engine = sa.create_engine(connection_str, echo=False, connect_args={"check_same_thread": False})  # set echo=True to see what sqlalchemy is doing

@@ -11,6 +11,7 @@ folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
 
 from src.db_models import db_session
+import config
 
 logging.basicConfig(filename='record.log', level=logging.DEBUG,
                     format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
@@ -26,9 +27,10 @@ def main():
 def configure():
     """Configure Flask app."""
     print("Configuring Flask app:")
+    app.config.from_object(os.environ['APP_SETTINGS'])
 
     # Configure OpenAI
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = app.config.get('OPENAI_API_KEY')
     if not openai.api_key:
         app.logger.critical('OpenAi API key was not Found')
         return flask.abort(404)
@@ -45,10 +47,7 @@ def configure():
 
 def setup_db():
     """Setup DB."""
-    db_file = os.path.join(
-        os.path.dirname(__file__),
-        'db',
-        'csve.sqlite')
+    db_file = app.config.get('SQLALCHEMY_DATABASE_URI')
 
     db_session.global_init(db_file)
 

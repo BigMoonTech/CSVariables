@@ -78,8 +78,7 @@
                     <button type="submit" class="btn btn-primary btn-custom-2 grow-lg-button p-2">Submit</button>
                 </div>
 
-                <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}
-                    {{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+                <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
             </form>
         </div>
 

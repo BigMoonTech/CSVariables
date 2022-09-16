@@ -10,6 +10,8 @@
 /httpRequests/
 
 # Additional user-specified stuff
+/src/config.py
+*.cfg
 *.pkl
 *.csv
 *.sqlite
