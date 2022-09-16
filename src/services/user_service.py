@@ -1,7 +1,7 @@
 import re
 from uuid import uuid4
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Tuple, Any
 import src.db_models.db_session as db_session
 from src.db_models.users import User
 from src.db_models.completions import Completion
@@ -36,9 +36,7 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
     user.name = name
     user.email = email
 
-    # regex pattern to check if password is valid (6 characters, a number, a letter, and only !@#%& allowed)
-    password_requirements = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#%&]{6,}$'
-    if not re.match(password_requirements, password):
+    if not validate_password(password):
         return None
 
     user.hashed_pw = hash_text(password)
@@ -105,6 +103,41 @@ def hash_text(text: str) -> str:
 def verify_hash(hashed_text: str, plain_text: str) -> bool:
     """ Verify a user's password """
     return crypto.verify(plain_text, hashed_text)
+
+
+def update_password(user_id: str, password: str) -> tuple[None, str] | tuple[User, None]:
+    """
+    Update a user's password.
+
+    :param user_id: The user's uuid
+    :param password: The user's new password
+    :return: A tuple containing the user and None if successful, or None and an error message if not
+    """
+
+    if not validate_password(password):
+        error = 'Password must be at least 6 characters, contain a number, and contain only !@#%&'
+        return None, error
+
+    session = db_session.create_session()
+    user = session.query(User).filter(User.uuid == user_id).first()
+    if user:
+        user.hashed_pw = hash_text(password)
+        session.commit()
+        session.close()
+        return user, None
+    else:
+        session.close()
+        return None, 'User not found'
+
+
+def validate_password(password: str) -> Optional[bool]:
+    """ Validate a user's password """
+    # regex pattern to check if password is valid (6 characters, a number, a letter, and only !@#%& allowed)
+    password_requirements = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#%&]{6,}$'
+    if not re.match(password_requirements, password):
+        return None
+
+    return True
 
 
 def login_user(email: str, password: str) -> Optional[User]:

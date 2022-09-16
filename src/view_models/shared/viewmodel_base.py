@@ -14,7 +14,7 @@ class ViewModelBase:
         self.request_dict = request_dict.create('')
         self.ip_address: Optional[str] = None
         self.error: Optional[str] = None
-        self.user_id: Optional[int] = cookie_auth.get_user_id_via_auth_cookie(self.request)
+        self.user_id: Optional[str] = cookie_auth.get_user_id_via_auth_cookie(self.request)
         self.user: Optional[User] = user_service.find_user_by_uuid(self.user_id)
 
     def to_dict(self) -> dict:

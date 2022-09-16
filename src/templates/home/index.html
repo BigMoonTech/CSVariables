@@ -23,10 +23,12 @@
                 <h4 class="subtitle">
                     An A.I. variable evaluation tool, and more.
                 </h4>
-                <button href="/account/register" class="btn btn-custom-2 btn-primary get-started grow-sm-button"
-                        id="start-button">
-                    Get Started
-                </button>
+                <form action="/account/register" method="get">
+                    <button class="btn btn-custom-2 btn-primary get-started grow-sm-button"
+                            id="start-button" type="submit">
+                        Get Started
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -40,7 +42,8 @@
                     <img src="/static/img/hand_icon.svg" class="icon" alt="">
                 </div>
                 <div class="col-lg-5 d-flex align-items-center fw-semibold p-1">
-                    <p class="">Leverage the power of OpenAI's GPT-3 to evaluate variable naming conventions and answer your programming questions. It's like shaking hands with your very own A.I. tutor!</p>
+                    <p class="">Leverage the power of OpenAI's GPT-3 to evaluate variable naming conventions and answer
+                        your programming questions. It's like shaking hands with your very own A.I. tutor!</p>
                 </div>
 
             </div>
@@ -75,7 +78,8 @@
                     <button type="submit" class="btn btn-primary btn-custom-2 grow-lg-button p-2">Submit</button>
                 </div>
 
-                <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+                <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}
+                    {{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
             </form>
         </div>
 
