@@ -14,7 +14,9 @@ logger = getLogger(__name__)
 
 def find_user_by_email(email: str) -> Optional[User]:
     session = db_session.create_session()
-    return session.query(User).filter(User.email == email).first()
+    user = session.query(User).filter(User.email == email).first()
+    session.close()
+    return user
 
 
 def create_user(name: str, email: str, password: str) -> Optional[User]:
@@ -51,7 +53,7 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
     return user
 
 
-def update_registered_user_calls(user_id: int):
+def update_registered_user_calls(user_id: str):
     """ Update the number of calls made by a registered user """
     session = db_session.create_session()
     user = session.query(User).filter(User.uuid == user_id).first()
@@ -93,6 +95,7 @@ def update_unregistered_user_calls(ip_address: str) -> Optional[UnregisteredUser
         session.commit()
         session.close()
     return _user if _user else None
+
 
 def hash_text(text: str) -> str:
     """ Hash a user's password """
@@ -140,19 +143,30 @@ def validate_password(password: str) -> Optional[bool]:
     return True
 
 
+def update_email(user_id: str, new_email: str) -> Optional[User]:
+    session = db_session.create_session()
+    user = session.query(User).filter(User.uuid == user_id).first()
+    if not user:
+        return None
+
+    user.email = new_email
+    session.commit()
+    session.close()
+    return user
+
+
+
 def login_user(email: str, password: str) -> Optional[User]:
     """ Login a user """
     session = db_session.create_session()
 
     user = session.query(User).filter(User.email == email).first()
     if not user or not verify_hash(user.hashed_pw, password):
-        user = None
-    if user is None:
         session.close()
         return None
 
     # update the user's last login time
-    user.last_login = datetime.now()
+    user.last_login = datetime.utcnow()
     session.commit()
     session.close()
     return user
@@ -198,3 +212,25 @@ def get_unregistered_user_by_ip(ip_address: str):
 
     session.close()
     return query
+
+
+def update_email_confirmation(email: str, confirmed: bool = False) -> Optional[User]:
+    """ Update the email confirmed status of a user """
+    if not email.strip():
+        return None
+
+    session = db_session.create_session()
+    user = session.query(User).filter(User.email == email).first()
+    if not user:
+        return None
+
+    if confirmed:
+        user.confirmed = 1
+        user.confirmed_on = datetime.utcnow()
+    else:
+        user.confirmed = 0
+        user.confirmed_on = None
+
+    session.commit()
+    session.close()
+    return user if user else None

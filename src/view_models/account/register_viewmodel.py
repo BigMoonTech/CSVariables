@@ -1,3 +1,4 @@
+from src.infrastructure.email_token import generate_token
 from src.services import user_service
 from src.view_models.shared.viewmodel_base import ViewModelBase
 
@@ -8,6 +9,7 @@ class RegisterViewModel(ViewModelBase):
         self.name = self.request_dict.name
         self.email = self.request_dict.email.lower().strip()
         self.password = self.request_dict.password.strip()
+        self.confirm_url = None
 
     def validate(self):
         if not self.name:

@@ -4,8 +4,8 @@ from src.view_models.home.app_viewmodel import AppViewModel
 from src.services import completion_service as cs
 from src.services import user_service as us
 
-
 blueprint = Blueprint('app', __name__, template_folder='templates')
+
 
 @blueprint.route('/app', methods=['GET'])
 @response(template_file='home/app.html')
@@ -16,7 +16,11 @@ def app_get():
     if viewmodel.user_id is None:
         return redirect('/account/login')
 
+    elif not viewmodel.user.confirmed:
+        return redirect('/unconfirmed')
+
     return viewmodel.to_dict()
+
 
 @blueprint.route('/app', methods=['POST'])
 @response(template_file='home/app.html')
