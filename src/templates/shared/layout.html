@@ -9,6 +9,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
               rel="stylesheet">
+        <script src="/static/js/bootstrap.bundle.js"></script>
 
         <link rel="stylesheet" href="/static/css/site_wide.css">
 
@@ -20,6 +21,7 @@
 
     </head>
     <body>
+
 
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-fluid">
@@ -50,14 +52,16 @@
                                 <a class="nav-link" href="/about">About</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="/account" role="button" data-bs-toggle="dropdown"
+                                <a class="nav-link dropdown-toggle" href="/account" role="button"
+                                   data-bs-toggle="dropdown"
                                    aria-expanded="false">
                                     Account
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li><a class="dropdown-item" href="/account">Overview</a></li>
                                     <li><a class="dropdown-item" href="/account/history">History</a></li>
-                                    <li><a class="dropdown-item" id="last_nav_link" href="/account/logout">Logout</a></li>
+                                    <li><a class="dropdown-item" id="last_nav_link" href="/account/logout">Logout</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -84,7 +88,6 @@
                 Copyright &copy; Joshua Aguilar 2022
             </div>
         </footer>
-        <script src="/static/js/bootstrap.bundle.js"></script>
     </body>
 
 </html>

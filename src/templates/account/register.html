@@ -7,12 +7,41 @@
 {% block additional_js %}{% endblock %}
 
 {% block main_content %}
+
     <section class="vh-100" id="register-section">
-        <div class="container py-5 h-100">
+        <div class="container mt-5 py-5 h-100">
+
+            <!-- ------------------------- Notification Area ------------------------- -->
+            <div class="row mt-5 px-1">
+                <!-- If there are errors passed from the view models, prioritize those -->
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error:</strong> {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                    </div>
+
+                <!-- If no errors from vm's, then show flask flashed msgs instead -->
+                {% else %}
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Warning:</strong> {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </div>
+
+            <!-- ------------------------- Form Card Starts HERE ------------------------- -->
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong">
-                        <div class="card-body p-5">
+                        <div class="card-body px-5 py-4">
 
                             <form action="" method="POST">
 
@@ -57,19 +86,18 @@
                                     </div>
                                 </div>
 
-                                {% if error %}
-                                    <div class="error-msg">
-                                        {{ error }}
-                                    </div>
-                                {% endif %}
 
                                 <div class="text-center">
                                     <button class="btn btn-primary btn-custom-2" type="submit">Register</button>
                                 </div>
 
                             </form>
-
                         </div>
+                        {% if error %}
+                            <div class="text-center text-danger">
+                                <p>Please try again.</p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

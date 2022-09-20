@@ -155,7 +155,6 @@ def update_email(user_id: str, new_email: str) -> Optional[User]:
     return user
 
 
-
 def login_user(email: str, password: str) -> Optional[User]:
     """ Login a user """
     session = db_session.create_session()

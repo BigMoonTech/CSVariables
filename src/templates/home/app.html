@@ -15,34 +15,63 @@
 
     <section class="query_form_group pt-5 pb-3">
 
-        <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
+        <div class="container mt-5">
 
-            <form action="/app" class="g-3" method="post">
-
-                <input id="usr_data" class="visually-hidden" type="text">
-
-                <div class="query-area mb-2">
-
-                    <label class="visually-hidden" for="query">Query</label>
-                    <textarea id="query" onkeyup="countChars()" name="query" type="text"
-                              autocomplete="off"
-                              class="d-flex form-control unstyled-ta"
-                              rows="4"
-                              placeholder="I have a variable that stores information about a dog, should I name it dog?"
-                    ></textarea>
-                    <!-- character counter -->
-                    <div class="d-flex justify-content-end p-1 mx-1">
-                        <span id="char_count">0 / 200</span>
+            <!-- ------------------------- Notification Area ------------------------- -->
+            <div class="row mt-5 px-1">
+                <!-- If there are errors passed from the view models, prioritize those -->
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error:</strong> {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
                     </div>
 
-                </div>
+                <!-- If no errors from vm's, then show flask flashed msgs instead -->
+                {% else %}
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Warning:</strong> {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </div>
 
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary btn-custom-2 grow-lg-button p-2">Submit</button>
-                </div>
+            <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
+                <form action="/app" class="g-3" method="post">
 
-                <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
-            </form>
+                    <input id="usr_data" class="visually-hidden" type="text">
+
+                    <div class="query-area mb-2">
+
+                        <label class="visually-hidden" for="query">Query</label>
+                        <textarea id="query" onkeyup="countChars()" name="query" type="text"
+                                  autocomplete="off"
+                                  class="d-flex form-control unstyled-ta"
+                                  rows="4"
+                                  placeholder="I have a variable that stores information about a dog, should I name it dog?"
+                        ></textarea>
+                        <!-- character counter -->
+                        <div class="d-flex justify-content-end p-1 mx-1">
+                            <span id="char_count">0 / 200</span>
+                        </div>
+
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-custom-2 grow-lg-button p-2">Submit</button>
+                    </div>
+
+                    <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}
+                        {{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+                </form>
+            </div>
         </div>
 
     </section>

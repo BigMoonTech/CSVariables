@@ -10,15 +10,14 @@ def generate_token(email: str) -> str:
 
 
 def confirm_token(token: str, expiration: int = 3600) -> Optional[str]:
-    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     try:
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         email = serializer.loads(
             token,
             salt=current_app.config['SECURITY_PASSWORD_SALT'],
             max_age=expiration
         )
-
+        return email
     # todo: Broader exception handling, and logging
     except:
         return None
-    return email
