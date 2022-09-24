@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect
+from flask import Blueprint, redirect, flash
 from src.infrastructure.view_modifier import response
 from src.view_models.home.app_viewmodel import AppViewModel
 from src.services import completion_service as cs
@@ -27,8 +27,12 @@ def app_get():
 def app_post():
     """Handle requests for the application page."""
     viewmodel = AppViewModel()
-    viewmodel.prompt = viewmodel.request_dict.query.strip()
 
+    if viewmodel.user_id is None:
+        flash('Please login in to access the app.')
+        return redirect('/account/login')
+
+    viewmodel.prompt = viewmodel.request_dict.query.strip()
     viewmodel.validate()
 
     if viewmodel.error is None:

@@ -4,12 +4,7 @@
     <link href="/static/css/app.css" rel="stylesheet">
 {% endblock %}
 
-{% block additional_js %}
-    <!--suppress HtmlFormInputWithoutLabel -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script src="/static/js/helpers.js"></script>
-{% endblock %}
+{% block additional_js %}{% endblock %}
 
 {% block main_content %}
 
@@ -44,11 +39,9 @@
             </div>
 
             <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
-                <form action="/app" class="g-3" method="post">
+                <form action="/app" class="g-3" method="post" onsubmit="disableSubmit()">
 
-                    <input id="usr_data" class="visually-hidden" type="text">
-
-                    <div class="query-area mb-2">
+                    <div id="query-area" class="query-area mb-2" tabindex="0">
 
                         <label class="visually-hidden" for="query">Query</label>
                         <textarea id="query" onkeyup="countChars()" name="query" type="text"
@@ -65,11 +58,10 @@
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-custom-2 grow-lg-button p-2">Submit</button>
+                        <button id="submit" type="submit" class="btn btn-primary btn-custom-3 grow-lg-button p-2">Submit</button>
                     </div>
 
-                    <textarea class="form-control my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}
-                        {{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+                    <textarea id="output" class="my-4 text-area" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
                 </form>
             </div>
         </div>

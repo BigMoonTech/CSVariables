@@ -1,26 +1,4 @@
 
-textarea {
-    resize: none;
-}
-textarea.form-control, section.cool-stuff {
-    color: #E94560;
-}
-.query-area {
-    background-color: #0F3460;
-    color: #E94560;
-    border-radius: 10px;
-    border: 1px solid #E94560;
-}
-
-.query-area:focus {
-    outline: none;
-    background-color: #0F3460;
-    border: 1px solid #E94560;
-    box-shadow: none;
-    color: #E94560;
-}
-
-
 .form-body {
     max-width: 1000px;
 }
@@ -33,42 +11,5 @@ textarea.form-control, section.cool-stuff {
 
 .query_form_group {
     background-color: #ece4e4;
-    color: #E94560;
     margin: 0;
-}
-
-.text-area {
-    background-color: #0F3460;
-    border: 1px solid #E94560;
-    border-radius: 10px;
-    color: #E94560;
-    padding: 0.5rem;
-    width: 100%;
-}
-
-.text-area:focus {
-    outline: none;
-    background-color: #0F3460;
-    border: 1px solid #E94560;
-    box-shadow: none;
-    color: #E94560;
-    transition: none;
-}
-
-.unstyled-ta {
-    background-color: transparent;
-    border: none;
-}
-
-.unstyled-ta:focus {
-    outline: none;
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    color: #E94560;
-}
-
-#char_count {
-    font-size: 0.8em;
-    color: #E94560;
 }

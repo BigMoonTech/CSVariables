@@ -8,7 +8,7 @@
 
 {% block main_content %}
 
-    <section class="vh-100" id="register-section">
+    <section id="register-section">
         <div class="container mt-5 py-5 h-100">
 
             <!-- ------------------------- Notification Area ------------------------- -->
@@ -21,7 +21,7 @@
                                 aria-label="Close"></button>
                     </div>
 
-                <!-- If no errors from vm's, then show flask flashed msgs instead -->
+                    <!-- If no errors from vm's, then show flask flashed msgs instead -->
                 {% else %}
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
@@ -43,7 +43,7 @@
                     <div class="card shadow-2-strong">
                         <div class="card-body px-5 py-4">
 
-                            <form action="" method="POST">
+                            <form action="" method="POST" onsubmit="disableSubmit()">
 
                                 <div class="text-center">
                                     <h3 class="mb-5">Register</h3>
@@ -88,7 +88,7 @@
 
 
                                 <div class="text-center">
-                                    <button class="btn btn-primary btn-custom-2" type="submit">Register</button>
+                                    <button id="submit" class="btn btn-primary btn-custom-2" type="submit">Register</button>
                                 </div>
 
                             </form>
@@ -98,6 +98,10 @@
                                 <p>Please try again.</p>
                             </div>
                         {% endif %}
+
+                        <div class="d-flex justify-content-around text-center pwd-register">
+                            <p>Need to <a href="/account/login">login</a> instead?</p>
+                        </div>
                     </div>
                 </div>
             </div>

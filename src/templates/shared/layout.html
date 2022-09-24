@@ -16,13 +16,14 @@
         {% block additional_css %}{% endblock %}
 
         <title>Variable Evaluator - {% block title %}{% endblock %}</title>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/helpers.js"></script>
 
         {% block additional_js %}{% endblock %}
 
     </head>
+
     <body>
-
-
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-fluid">
 
@@ -52,12 +53,13 @@
                                 <a class="nav-link" href="/about">About</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="/account" role="button"
-                                   data-bs-toggle="dropdown"
+                                <a id="dropdown-toggle"
+                                   class="nav-link dropdown-toggle"
+                                   role="button"
                                    aria-expanded="false">
                                     Account
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-dark">
+                                <ul id="dropdown-menu" class="dropdown-menu">
                                     <li><a class="dropdown-item" href="/account">Overview</a></li>
                                     <li><a class="dropdown-item" href="/account/history">History</a></li>
                                     <li><a class="dropdown-item" id="last_nav_link" href="/account/logout">Logout</a>
@@ -84,7 +86,7 @@
         {% block main_content %}{% endblock %}
 
         <footer>
-            <div class="text-center p-3">
+            <div id="footer" class="container-fluid text-center p-4">
                 Copyright &copy; Joshua Aguilar 2022
             </div>
         </footer>
