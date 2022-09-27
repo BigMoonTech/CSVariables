@@ -15,7 +15,7 @@ section.cool-stuff {
 .hero {
     padding-top: 180px;
     padding-bottom: 90px;
-    background-color: #ece4e4;
+    background-color: #fbfbfb;
 }
 
 @media (min-width: 1200px) {
@@ -28,9 +28,6 @@ section.cool-stuff {
     }
 }
 
-.query_form_group {
-    background-color: #ece4e4;
-}
 
 .hero, .query_form_group {
     color: #E94560;

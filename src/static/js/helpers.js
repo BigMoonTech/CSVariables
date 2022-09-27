@@ -1,6 +1,7 @@
 function countChars() {
     // select the input field with id="variable_query
     const querySelector = document.querySelector("#query");
+    const queryAreaSelector = document.querySelector("#query-area")
 
     // get the count of the number of characters in the input field
     const length = querySelector.value.length;
@@ -13,13 +14,13 @@ function countChars() {
 
     // if the number of characters in the input field is greater than 200 add a red border to the input field
     if (length > 200) {
-        querySelector.classList.add("text-danger");
-        querySelector.classList.add("border-danger");
+        queryAreaSelector.classList.add("ta-danger")
         charCount.classList.add("text-danger");
+        querySelector.classList.add("text-danger");
     } else {
-        querySelector.classList.remove("text-danger");
-        querySelector.classList.remove("border-danger");
+        queryAreaSelector.classList.remove("ta-danger");
         charCount.classList.remove("text-danger");
+        querySelector.classList.remove("text-danger");
     }
 }
 

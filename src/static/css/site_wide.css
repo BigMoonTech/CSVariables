@@ -7,6 +7,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
+    background-color: #dbdbdb87;
 }
 
 .btn-custom {
@@ -148,29 +149,56 @@ section {
     margin: 0;
 }
 
+.query-area, #output {
+    background-color: #47526b !important;
+    border-radius: 8px;
+    border: .12rem solid #3f434b;
+}
+
 .ta-focus {
     outline-color: transparent !important;
     outline-style: none;
     border: 0.05rem solid #fefeff !important;
-    border-radius: 10px !important;
-    color: #d3d8de !important;
+    border-radius: 8px !important;
     transition: none;
-    -moz-box-shadow: 3px 3px 3px #4a5460;
-    -webkit-box-shadow: 3px 3px 3px #4a5460;
-    box-shadow: 0.2rem 0.2rem 0.2rem #4a5460 !important;
+    -moz-box-shadow: 0 0 0.25rem 0.15rem #4a5460 !important;
+    -webkit-box-shadow: 0 0 0.25rem 0.15rem #4a5460 !important;
+    box-shadow: 0 0 0.25rem 0.15rem #4a5460 !important;
+}
+
+.ta-danger {
+    border: 0.05rem solid #dc3545 !important;
 }
 
 textarea {
-    background-color: #0F3460;
-    border: 1px solid #0a2442;
-    border-radius: 10px;
-    color: #d3d8de !important;
     padding: 0.5rem !important;
     width: 100%;
     resize: none !important;
     -moz-appearance: none !important;
     -webkit-appearance: none !important;
     appearance: none !important;
+}
+
+textarea, .query-area, #output, .ta-focus {
+    color: #d3d8de;
+}
+
+.tight-shadow {
+    -moz-box-shadow: 0 0 0.4rem 0.05rem #727272;
+    -webkit-box-shadow: 0 0 0.4rem 0.05rem #727272;
+    box-shadow: 0 0 0.4rem 0.05rem #727272;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #8a8888;
+}
+
+.tight-shadow-narrow {
+    -moz-box-shadow: 0 0 0.2rem 0.03rem #727272;
+    -webkit-box-shadow: 0 0 0.2rem 0.03rem #727272;
+    box-shadow: 0 0 0.2rem 0.03rem #727272;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #8a8888;
 }
 
 .unstyled-ta {
@@ -183,12 +211,17 @@ textarea {
     outline: none !important;
     background-color: transparent !important;
     border: none !important;
-    color: #d3d8de !important;
 }
 
-.query-area {
-    background-color: #0F3460 !important;
-    color: #d3d8de;
-    border-radius: 10px;
-    border: 1px solid #0a2442;
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #b7bac2;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #b7bac2;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #b7bac2;
 }

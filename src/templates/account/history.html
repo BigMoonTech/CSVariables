@@ -11,37 +11,39 @@
 
     <!-- render the completions belonging to the user in a table -->
     <section id="history" class="mt-5">
-        <div class="text-center mt-5 pt-3">
-            <h1>History</h1>
-            <p class="mb-0">Here, you'll find every completion you've ever made.</p>
-            <p class="text-muted fw-light">(If you're on mobile, it's best viewed in landscape.)</p>
-        </div>
+        <div class="container">
+            <div class="text-center mt-5 pt-3">
+                <h1>History</h1>
+                <p class="mb-0">Here, you'll find every completion you've ever made.</p>
+                <p class="text-muted fw-light">(If you're on mobile, it's best viewed in landscape.)</p>
+            </div>
 
-        <div class="table-responsive px-sm-0 px-md-5 mb-5">
-            {% if error %}
-                <div class="text-danger text-center">{{ error }}</div>
-            {% else %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="width: 5%;">Completion ID</th>
-                            <th scope="col" style="width: 10%;">Prompt</th>
-                            <th scope="col">Response</th>
-                            <th scope="col">Total Tokens Used</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for completion in completions %}
+            <div class="table-responsive px-sm-0 px-md-5 mb-5">
+                {% if error %}
+                    <div class="text-danger text-center">{{ error }}</div>
+                {% else %}
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td style="max-width: 50px; overflow-x: scroll;">{{ completion.completion_id }}</td>
-                                <td>{{ completion.prompt_text }}</td>
-                                <td>{{ completion.response_text }}</td>
-                                <td>{{ completion.total_tokens }}</td>
+                                <th scope="col" style="width: 5%;">Completion ID</th>
+                                <th scope="col" style="width: 10%;">Prompt</th>
+                                <th scope="col">Response</th>
+                                <th scope="col">Total Tokens Used</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
+                        </thead>
+                        <tbody>
+                            {% for completion in completions %}
+                                <tr>
+                                    <td style="max-width: 50px; overflow-x: scroll;">{{ completion.completion_id }}</td>
+                                    <td>{{ completion.prompt_text }}</td>
+                                    <td>{{ completion.response_text }}</td>
+                                    <td>{{ completion.total_tokens }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
         </div>
 
 

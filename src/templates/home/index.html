@@ -20,7 +20,7 @@
                     A.I. computer science tutoring.
                 </h4>
                 <form action="/account/register" method="get">
-                    <button class="btn btn-custom-3 btn-primary get-started grow-sm-button"
+                    <button class="btn btn-custom-2 btn-primary get-started grow-sm-button"
                             id="start-button" type="submit">
                         Get Started
                     </button>
@@ -38,7 +38,9 @@
                     <img src="/static/img/hand_icon.svg" class="icon" alt="">
                 </div>
                 <div class="col-lg-5 d-flex align-items-center fw-semibold p-1">
-                    <p class="">Leverage the power of OpenAI's GPT-3! Ask computer science related questions and get answers, code, or explanations. Shake hands with your A.I. tutor today, and get instant feedback!</p>
+                    <p class="">Leverage the power of OpenAI's GPT-3! Ask computer science related questions and get
+                        answers, code, or explanations. Shake hands with your A.I. tutor today, and get instant
+                        feedback!</p>
                 </div>
 
             </div>
@@ -50,28 +52,37 @@
         <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
 
             <form action="/" class="g-3" method="post" onsubmit="disableSubmit()">
+                <div class="row">
 
-                <div id="query-area" class="query-area mb-2">
+                    <div class="col-12 col-md-10 mx-auto">
+                        <div id="query-area" class="query-area mb-2">
 
-                    <label class="visually-hidden" for="query">Query</label>
-                    <textarea id="query" onkeyup="countChars()" name="query" type="text"
-                              autocomplete="off"
-                              class="d-flex form-control unstyled-ta"
-                              rows="4"
-                              placeholder="I have a variable that stores information about a dog, should I name it dog?"
-                    ></textarea>
-                    <!-- character counter -->
-                    <div class="d-flex justify-content-end p-1 mx-1">
-                        <span id="char_count">0 / 200</span>
+                            <label class="visually-hidden" for="query">Query</label>
+                            <textarea id="query" onkeyup="countChars()" name="query" type="text"
+                                      autocomplete="off"
+                                      class="d-flex unstyled-ta"
+                                      rows="4"
+                                      placeholder="I have a variable that stores information about a dog, should I name it dog?"
+                            ></textarea>
+                            <!-- character counter -->
+                            <div class="d-flex justify-content-end p-1 mx-1">
+                                <span id="char_count">0 / 200</span>
+                            </div>
+
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button id="submit" type="submit" class="btn btn-primary btn-custom-2 grow-lg-button p-2">
+                                Try it out!
+                            </button>
+                        </div>
+
+                        <textarea class="my-4" id="output" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+
                     </div>
 
                 </div>
 
-                <div class="d-grid gap-2">
-                    <button id="submit" type="submit" class="btn btn-primary btn-custom-3 grow-lg-button p-2">Try it out!</button>
-                </div>
-
-                <textarea class="my-4 text-area" id="output" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
             </form>
         </div>
 

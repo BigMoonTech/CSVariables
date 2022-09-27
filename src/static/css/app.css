@@ -9,7 +9,24 @@
     background-color: #ece4e4;
 }
 
-.query_form_group {
-    background-color: #ece4e4;
-    margin: 0;
+.preloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    background-repeat: no-repeat;
+    background-color: #16213E;
+    background-position: center;
+}
+
+/* center the lottie-player horizontally and vertically */
+lottie-player {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

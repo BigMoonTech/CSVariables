@@ -4,26 +4,53 @@
     <link href="/static/css/app.css" rel="stylesheet">
 {% endblock %}
 
-{% block additional_js %}{% endblock %}
+{% block additional_js %}
+    <script src="/static/js/lottie-player.js"></script>
+    <script>
+        // hide the loading screen when the page is loaded
+        $(window).on("load", function () {
+            $(".preloader").fadeOut(330);
+        });
+
+        // show the loading screen when the form is submitted
+        $(document).ready(function () {
+            $("#form").submit(function () {
+                $(".preloader").show();
+            });
+        });
+    </script>
+{% endblock %}
 
 {% block main_content %}
 
-    <section class="query_form_group pt-5 pb-3">
+    <div class="preloader text-center justify-content-around">
 
+        <lottie-player src="/static/img/preloader.json" mode="bounce"
+                       background="transparent" speed=".5" style="width: 500px; height: 500px;" loop
+                       autoplay></lottie-player>
+    </div>
+
+    <!-- ------------------------- NOTIFICATION AREA ------------------------- -->
+
+    <!-- If there are errors passed from the view models, prioritize those -->
+    {% if error %}
         <div class="container mt-5">
-
-            <!-- ------------------------- Notification Area ------------------------- -->
-            <div class="row mt-5 px-1">
-                <!-- If there are errors passed from the view models, prioritize those -->
-                {% if error %}
+            <div class="row mt-5">
+                <div class="col-12 mx-auto">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>Error:</strong> {{ error }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"
                                 aria-label="Close"></button>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                <!-- If no errors from vm's, then show flask flashed msgs instead -->
-                {% else %}
+        <!-- If no errors from vm's, then show flask flashed msgs instead -->
+    {% else %}
+        <div class="container mt-5">
+            <div class="row mt-5">
+                <div class="col-12 mx-auto">
                     {% with messages = get_flashed_messages() %}
                         {% if messages %}
                             {% for message in messages %}
@@ -35,35 +62,52 @@
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
-                {% endif %}
+                </div>
             </div>
+        </div>
+    {% endif %}
 
-            <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
-                <form action="/app" class="g-3" method="post" onsubmit="disableSubmit()">
+    <!-- ------------------------- APP AREA ------------------------- -->
 
-                    <div id="query-area" class="query-area mb-2" tabindex="0">
+    <section class="query_form_group pt-5 pb-3">
 
-                        <label class="visually-hidden" for="query">Query</label>
-                        <textarea id="query" onkeyup="countChars()" name="query" type="text"
-                                  autocomplete="off"
-                                  class="d-flex form-control unstyled-ta"
-                                  rows="4"
-                                  placeholder="I have a variable that stores information about a dog, should I name it dog?"
-                        ></textarea>
-                        <!-- character counter -->
-                        <div class="d-flex justify-content-end p-1 mx-1">
-                            <span id="char_count">0 / 200</span>
+        <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
+
+            <form id="form" action="/app" method="post" class="g-3" onsubmit="disableSubmit()">
+
+                <div class="row">
+                    <div class="col-12 col-md-10 mx-auto">
+
+                        <div id="query-area" class="query-area mb-2" tabindex="0">
+
+                            <label class="visually-hidden" for="query">Query</label>
+                            <textarea id="query" onkeyup="countChars()" name="query" type="text"
+                                      autocomplete="off"
+                                      class="d-flex unstyled-ta"
+                                      rows="4"
+                                      placeholder="Type your query here..."
+                            ></textarea>
+                            <!-- character counter -->
+                            <div class="d-flex justify-content-end p-1 mx-1">
+                                <span id="char_count">0 / 200</span>
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="d-grid gap-2">
+                            <button id="submit" type="submit"
+                                    class="btn btn-primary btn-custom-2 grow-lg-button p-2">
+                                Submit
+                            </button>
+                        </div>
 
-                    <div class="d-grid gap-2">
-                        <button id="submit" type="submit" class="btn btn-primary btn-custom-3 grow-lg-button p-2">Submit</button>
-                    </div>
+                        <textarea id="output" class="my-4" rows="8" readonly>{% if resp_text %}
+                            {{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
 
-                    <textarea id="output" class="my-4 text-area" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
-                </form>
-            </div>
+                    </div>
+                </div>
+
+            </form>
         </div>
 
     </section>
