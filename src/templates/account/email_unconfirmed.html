@@ -7,18 +7,50 @@
 {% block title %}Email Confirmation{% endblock %}
 
 {% block main_content %}
-    <div class="container mt-5">
-        <div class="row mt-5 pt-5">
-            <div class="col-10 col-md-4 mx-auto">
-                <div class="card">
-                    <div class="card-header">Email Confirmation Required</div>
-                    <div class="card-body">
-                        <p class="card-text">You have not confirmed your account. Please check your inbox (and your spam folder) - you
-                            should have received an email with a confirmation link.</p>
-                        <p>Didn't get the email? <a href="/">Resend</a>.</p>
-                    </div>
+<div class="container mt-5">
+
+    {% if error %}
+        <div class="row mt-5">
+            <div class="col-12 mx-auto">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Warning:</strong> {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                            aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <!-- If no errors from vm's, then show flask flashed msgs instead -->
+    {% else %}
+        <div class="container mt-5">
+            <div class="row mt-5">
+                <div class="col-12 mx-auto">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Warning:</strong> {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row mt-5 pt-5">
+        <div class="col-10 col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-header">Email Confirmation Required</div>
+                <div class="card-body">
+                    <p class="card-text">You have not confirmed your account. Please check your inbox (and your spam
+                        folder) - you should have received an email with a confirmation link.</p>
+                    <p>Didn't get the email, or need a new one? <a href="/resend_email">Resend</a>.</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

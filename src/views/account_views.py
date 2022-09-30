@@ -1,7 +1,6 @@
-from flask import Blueprint, redirect, url_for, render_template, request, flash, current_app
-
+from flask import Blueprint, redirect, url_for, render_template, flash, current_app
 from src.helpers.email import send_email
-from src.infrastructure.email_token import confirm_token, generate_token
+from src.infrastructure.tokenizer import confirm_token, generate_token
 from src.infrastructure.view_modifier import response
 import src.infrastructure.cookie_auth as cookie_auth
 from src.services import user_service
@@ -23,8 +22,6 @@ blueprint = Blueprint('account', __name__, template_folder='templates')
 @blueprint.route('/account/history', methods=['GET'])
 @response(template_file='account/history.html')
 def history():
-    # todo: complete the history page
-
     viewmodel = HistoryViewModel()
     viewmodel.validate()
 
@@ -40,7 +37,6 @@ def history():
 @blueprint.route('/account')
 @response(template_file='account/index.html')
 def index():
-    # todo: complete the account index page
     viewmodel = IndexViewModel()
 
     if viewmodel.user_id is None:
@@ -89,11 +85,41 @@ def register_post():
 
 # ################### EMAIL CONFIRMATION ####################################
 
+
+@blueprint.route('/resend_email', methods=['GET'])
+@response(template_file='account/email_unconfirmed.html')
+def resend_email_confirmation():
+    viewmodel = ActivationViewModel()
+    viewmodel.validate()
+
+    if viewmodel.error:
+        flash('You must login first.')
+        return redirect('/account/login')
+
+    user_email = viewmodel.user.email
+
+    # make sure the user's email confirmation is set to false
+    user_updated = user_service.update_email_confirmation(user_email)  # finds the user and sets email conf. to false
+
+    if user_updated:
+        email_token = generate_token(user_email)
+        confirm_url = url_for('account.confirm_email', token=email_token, _external=True)
+        html = render_template('account/activate_account_email_contents.html', confirm_url=confirm_url)
+        email_subject = 'Please Confirm Email'
+        send_email(user_email, email_subject, html)
+        flash(
+            'A new confirmation email has been sent to your email address. \
+            Please allow a few minutes for it to arrive.'
+        )
+        return redirect('/unconfirmed')
+
+    return viewmodel.to_dict()
+
+
 @blueprint.route('/unconfirmed')
 @response(template_file='account/email_unconfirmed.html')
 def unconfirmed():
     viewmodel = ActivationViewModel()
-    # todo - validate the unconfirmed view
     viewmodel.validate()
 
     if viewmodel.error:
@@ -101,9 +127,9 @@ def unconfirmed():
         return redirect('/account/login')
 
     if viewmodel.user.confirmed:
+        flash('Your account is confirmed!')
         return redirect('/app')
 
-    flash('Please activate your account.')
     return viewmodel.to_dict()
 
 
@@ -111,17 +137,15 @@ def unconfirmed():
 @response(template_file='account/confirm.html')
 def confirm_email(token):
     viewmodel = ActivationViewModel()
-    # todo: validate the confirm email view
-    # todo: refactor this function (It has a bit of a code smell)
-
     try:
-        email = confirm_token(token).lower()
+        email = confirm_token(token).lower()  # will raise AttributeError if token is invalid
 
         # if logged in, and if the token is valid then update the user's confirmed field
         if viewmodel.user_id:
             if viewmodel.user.email == email:
-                user = user_service.update_email_confirmation(viewmodel.user.email, confirmed=True)
-                if user:
+                user_updated = user_service.update_email_confirmation(viewmodel.user.email, confirmed=True)
+                if user_updated:
+                    flash('Your email has been confirmed.')
                     return redirect('/app')
                 else:
                     viewmodel.error = 'The account could not be confirmed.'
@@ -132,24 +156,37 @@ def confirm_email(token):
 
         # if not logged in, then get the user by email and update the user's confirmed field
         else:
-            user = user_service.find_user_by_email(email)
-            if user:
-                if not user.confirmed:
-                    user = user_service.update_email_confirmation(email, confirmed=True)
-                    if user:
+            user_by_email = user_service.find_user_by_email(email)
+
+            if user_by_email:
+
+                if not user_by_email.confirmed:
+                    user_updated = user_service.update_email_confirmation(email, confirmed=True)
+                    if user_updated:
+                        flash('Your email has been confirmed. Please log in.')
                         return redirect('/account/login')
 
-                    print('Account confirmed. Please login.')
-                    return viewmodel.to_dict()
+                    viewmodel.error = 'There was a problem confirming your email.'
+                    current_app.logger.error(f'There was a problem confirming the email for user: {user_by_email.uuid}')
+                    # todo - In production, log the database connection status to see if it's a db connection issue
+                    return redirect('/account/login')
 
                 else:
-                    viewmodel.error = 'Account already confirmed. Please login.'
+                    flash('Account already confirmed. Please login.')
                     return redirect('/account/login')
             else:
-                viewmodel.error = 'There is no account associated with this email.'
-                return redirect('/account/register')
-    except:
-        viewmodel.error = 'The confirmed link is invalid or has expired.'
+                flash('The email confirmation link is invalid or has expired.')
+                return redirect('/account/login')
+
+    except AttributeError:
+        flash('The confirmation link is invalid or has expired.')
+        current_app.logger.warning(f'Problem confirming token: {token}. For user: {viewmodel.user_id}')
+        return redirect('/unconfirmed')
+
+    # except exceptions raised by configuration problems
+    except Exception as e:
+        flash("There was a problem confirming your email. Please try again later.")
+        current_app.logger.error(e)
         return redirect('/unconfirmed')
 
 
@@ -356,8 +393,8 @@ def change_email_post():
     # update the user's email
     email_change = user_service.update_email(viewmodel.user_id, viewmodel.new_email)
     if email_change:
-        service = user_service.update_email_confirmation(viewmodel.new_email)
-        if service:
+        user_updated = user_service.update_email_confirmation(viewmodel.new_email)  # set email confirmation to false
+        if user_updated:
             email_token = generate_token(viewmodel.new_email)
             viewmodel.confirm_url = url_for('account.confirm_email', token=email_token, _external=True)
             html = render_template('account/activate_account_email_contents.html', confirm_url=viewmodel.confirm_url)

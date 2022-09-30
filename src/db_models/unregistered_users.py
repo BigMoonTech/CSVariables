@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 from src.db_models.base_model import SqlAlchemyBase
 
+
 class UnregisteredUser(SqlAlchemyBase):
     __tablename__ = 'unregistered_users'
 

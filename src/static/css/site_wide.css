@@ -7,8 +7,22 @@ body {
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
-    background-color: #dbdbdb87;
+    background-color: #edeff1;
+    font-family: 'Nunito Sans', sans-serif !important;
 }
+
+#github-li:hover, #mailto-li:hover, #hand-li:hover {
+    /*increase size a little*/
+    transform: scale(1.175);
+    /* smooth the animation */
+    transition: all 0.2s ease-in-out;
+}
+
+#github-li, #mailto-li, #hand-li {
+    /* smooth the animation */
+    transition: all 0.2s ease-in-out;
+}
+
 
 .btn-custom {
     background-color: #533483;
@@ -25,7 +39,7 @@ body {
 
 .btn-custom-2 {
     background-color: #E94560;
-    color: #e5d2d7;
+    color: #f3f0f0;
     border-color: #da3954;
     border-width: 1px;
     border-style: solid;
@@ -71,7 +85,7 @@ body {
 
 .dropdown-menu {
     display: none;
-    background-color: #0F3460;
+    background-color: #47526b;
 }
 
 .dropdown-item {
@@ -90,7 +104,6 @@ body {
 footer {
     background-color: #16213E;
     color: #E94560;
-    border-top: outset 1px #0F3460;
 }
 
 .grow-sm-button, .grow-lg-button {

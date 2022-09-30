@@ -7,7 +7,6 @@ import flask
 import openai
 
 from flask import Flask
-from flask_mail import Mail
 
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
@@ -20,8 +19,6 @@ def create_app():
                         format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
     app = Flask(__name__)
-    mail = Mail(app)
-
 
     """Configure Flask app."""
     print("Configuring Flask app:")
@@ -33,8 +30,6 @@ def create_app():
         app.logger.critical('OpenAi API key was not Found')
         return flask.abort(404)
     print("Configured OpenAI API key.")
-
-
 
     db_file = app.config.get('SQLALCHEMY_DATABASE_URI')
     db_session.global_init(db_file)

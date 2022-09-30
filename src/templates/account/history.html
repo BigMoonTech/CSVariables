@@ -11,11 +11,19 @@
 
     <!-- render the completions belonging to the user in a table -->
     <section id="history" class="mt-5">
+
         <div class="container">
-            <div class="text-center mt-5 pt-3">
-                <h1>History</h1>
-                <p class="mb-0">Here, you'll find every completion you've ever made.</p>
-                <p class="text-muted fw-light">(If you're on mobile, it's best viewed in landscape.)</p>
+            <div class="row">
+                <div class="col-12 mx-auto text-center mt-5 pt-5 pb-3">
+                    <h1 id="history-title">History</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="text-center pt-4">
+                <h4 class="mb-1">Every question you've ever asked is here.</h4>
+                <p class="text-muted fw-light">(Best viewed in landscape on mobile devices)</p>
             </div>
 
             <div class="table-responsive px-sm-0 px-md-5 mb-5">
@@ -25,10 +33,10 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" style="width: 5%;">Completion ID</th>
-                                <th scope="col" style="width: 10%;">Prompt</th>
+                                <th scope="col" style="width: 10%;">ID</th>
+                                <th scope="col" style="width: 20%;">Prompt</th>
                                 <th scope="col">Response</th>
-                                <th scope="col">Total Tokens Used</th>
+                                <th scope="col" style="width: 5%;">Tokens Used</th>
                             </tr>
                         </thead>
                         <tbody>

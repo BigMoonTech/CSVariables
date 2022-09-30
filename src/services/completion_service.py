@@ -1,11 +1,11 @@
 from typing import Optional, Union
 import src.db_models.db_session as db_session
 from src.db_models.completions import Completion
-from openai import Completion as ai_completion
+from openai import Completion as aiCompletion
 from src.helpers import bad_words
 
 
-def add_completion_to_db(resp: dict, prompt: str, ip_id: str = None, user_id: int = None):
+def add_completion_to_db(resp: dict, prompt: str, ip_id: str = None, user_id: str = None):
     """ Add a completion to the database """
 
     completion = Completion()
@@ -29,10 +29,10 @@ def add_completion_to_db(resp: dict, prompt: str, ip_id: str = None, user_id: in
     session.close()
 
 
-def call_openai(prompt: str, max_tokens: int = 250) -> Optional[ai_completion]:
+def call_openai(prompt: str, max_tokens: int = 250) -> Optional[aiCompletion]:
     """ Make a completion """
 
-    completion = ai_completion.create(
+    completion = aiCompletion.create(
         model="text-davinci-002",
         prompt=f"Computer Science Tutor: I am a computer science tutor.\nYou: I have a variable that stores a dictionary about bird data, like species, wingspan, and so on. Should I name it bird_dictionary?\nComputer Science Tutor: When naming variables, keep them concise and descriptive. Also, a variable name should be independent from its data type, so it should not contain the word dictionary or dict. Consider naming it bird instead, or perhaps bird_data.\nYou: {prompt}",
         temperature=0.7,
@@ -42,9 +42,13 @@ def call_openai(prompt: str, max_tokens: int = 250) -> Optional[ai_completion]:
         presence_penalty=0,
         stop=["You:"]
     )
-    return completion.to_dict()
+    try:
+        return completion.to_dict()
+    except AttributeError:
+        return None
 
 # todo: handle the case where the response is empty
+
 
 def get_choices_text(completion: dict) -> str:
     """ Get the completion text from the api response """
@@ -70,7 +74,6 @@ def get_usage_total_tokens(completion: dict) -> int:
     """ Get the total tokens from the api response """
     return completion['usage']['total_tokens']
 
-# todo: - Add further validation to the prompt such
 
 def valid_prompt_len(prompt: str) -> Union[bool, str]:
     """ Validate the completion prompt """
@@ -90,7 +93,7 @@ def get_all_completions() -> list[Completion]:
     return session.query(Completion).all()
 
 
-def get_completions_by_uuid(user_id: int = None) -> Optional[list[Completion]]:
+def get_completions_by_uuid(user_id: str = None) -> Optional[list[Completion]]:
     """ Get all completions by user id """
     if user_id is None:
         return None
@@ -115,3 +118,7 @@ def create_empty_completion() -> list[Completion]:
     completion.response_text = 'No Data'
     completion.total_tokens = 0
     return [completion]
+
+
+def validate_openai_response(resp):
+    return None

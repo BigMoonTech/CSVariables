@@ -21,7 +21,8 @@ def global_init(db_file: str):
     connection_str = db_file.strip()
 
     # sqlalchemy engine
-    engine = sa.create_engine(connection_str, echo=False, connect_args={"check_same_thread": False})  # set echo=True to see what sqlalchemy is doing
+    # (set echo=True to see what sqlalchemy is doing)
+    engine = sa.create_engine(connection_str, echo=False, connect_args={"check_same_thread": False})
 
     # Create the session and reference the engine
     __factory = orm.sessionmaker(bind=engine)

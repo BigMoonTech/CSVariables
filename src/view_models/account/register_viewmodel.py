@@ -1,4 +1,3 @@
-from src.infrastructure.email_token import generate_token
 from src.services import user_service
 from src.view_models.shared.viewmodel_base import ViewModelBase
 

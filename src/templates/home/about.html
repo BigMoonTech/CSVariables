@@ -1,24 +1,27 @@
 {% extends "shared/layout.html" %}
+{% block title %}About{% endblock %}
 
 {% block additional_css %}
     <link href="/static/css/account.css" rel="stylesheet">
 {% endblock %}
 
-{% block title %}About{% endblock %}
-
+{% block additional_js %}
+    <script src="/static/js/lottie-player.js"></script>
+{% endblock %}
 
 {% block main_content %}
     <section id="about-section">
-        <div class="text-center mt-5 pt-4">
-            <h1 class="mt-5">About CSai</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mt-5 pt-5 pb-4 text-center mx-auto">
+                    <h1 id="about-title" class="mt-5">About CSai</h1>
+                </div>
+            </div>
         </div>
-        <div class="container py-5">
 
+        <div class="container pb-5">
             <div class="row my-auto">
                 <div class="col-md-8 col-11 mx-auto">
-
-                    <h2 class="blockquote fst-italic">"AI is becoming increasingly more capable every day, and opens up these new
-                        and extraordinary avenues of education and tutoring."</h2>
 
                     <p> CSai is a web application that allows users to ask questions to an "AI tutor" and receive
                         answers in a conversational manner. The app is finely-tuned towards computer science related
@@ -26,6 +29,13 @@
                         concise and valuable feedback as if you were bouncing questions off of a human professor or
                         mentor. CSai is written in Python, built using the Flask framework, and leverages the power of
                         the OpenAI API. The application is currently in beta and is not available to the public.</p>
+
+                    <div class="row">
+                        <div class="col-11 col-md-8 mx-auto">
+                            <h2 class="py-4 blockquote fst-italic">"Breakthroughs in A.I. are increasingly improving its
+                                capabilities&#8212;opening new and exciting avenues of education."</h2>
+                        </div>
+                    </div>
 
                     <p> As a computer science student, I often found it to be a challenge to quickly get answers when I
                         was studying a programming concept. As a college student, I would try
@@ -41,10 +51,21 @@
                         for myself, and for others like me, to receive answers to programming questions, quickly and
                         easily. Thus, CSai was born.</p>
 
-                    <p> The need for computer science educators is perpetually increasing
-                        as technology continues to advance and become more ingrained into our daily lives.
-                        Fortunately, AI is becoming increasingly more capable every day, and opens up these new
-                        and extraordinary avenues of education and tutoring.</p>
+                    <div id="lottie-container" class="container ">
+                        <div class="row ">
+                            <div class="col-12 mx-auto text-center justify-content-center">
+                                <lottie-player src="/static/img/preloader.json" mode="bounce"
+                                               background="transparent" speed=".2"
+                                               loop
+                                               autoplay></lottie-player>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p> As technology continues to become more ingrained into our daily lives, Computer Science
+                        educators are only going to become more sought-after.
+                        However, breakthroughs in A.I. are increasingly improving its capabilities, opening new and
+                        exciting avenues of education.</p>
 
 
                 </div>

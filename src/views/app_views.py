@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, flash
+from flask import Blueprint, redirect, flash, current_app
 from src.infrastructure.view_modifier import response
 from src.view_models.home.app_viewmodel import AppViewModel
 from src.services import completion_service as cs
@@ -40,6 +40,7 @@ def app_post():
         resp = cs.call_openai(viewmodel.prompt)
 
         # todo: (handle a no response error from openai, or a bad response)
+        cs.validate_openai_response(resp)
 
         viewmodel.resp_text = cs.get_choices_text(resp)
 
@@ -47,8 +48,8 @@ def app_post():
 
         # Update registered user table
         if us.update_registered_user_calls(viewmodel.user_id) is None:
-            viewmodel.error = 'There was an error updating your remaining calls.'
-            # todo: log this type of error
+            viewmodel.error = 'There was an error updating your remaining calls. Please contact support.'
+            current_app.logger.error("There was an error updating the user's remaining calls.")
 
     else:
         viewmodel.resp_text = viewmodel.error

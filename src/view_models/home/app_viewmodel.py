@@ -1,5 +1,5 @@
 from src.services.completion_service import (
-    valid_prompt_len, has_no_profanity, get_completions_by_uuid, create_empty_completion
+    valid_prompt_len, has_no_profanity
 )
 from src.view_models.shared.viewmodel_base import ViewModelBase
 
@@ -25,7 +25,7 @@ class AppViewModel(ViewModelBase):
             return False
 
         if self.remaining_calls <= 0:
-            self.error = 'You have exceeded your monthly calls.'
+            self.error = 'You may have exceeded your monthly calls.'
             return False
 
         if self.prompt is None or self.prompt == '':

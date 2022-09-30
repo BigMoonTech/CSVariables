@@ -9,13 +9,34 @@
     <script>
         // hide the loading screen when the page is loaded
         $(window).on("load", function () {
-            $(".preloader").fadeOut(330);
+            $(window).scrollTop(0);
+            // disable scrolling
+            $("body").css("overflow", "hidden");
+            // fade out
+            setTimeout(function () {
+                $(".preloader").fadeOut(300);
+            }, 1000);
+            // re-enable scrolling
+            setTimeout(function () {
+                $("body").css("overflow", "auto");
+            }, 1300);
         });
 
         // show the loading screen when the form is submitted
         $(document).ready(function () {
             $("#form").submit(function () {
+                // scroll to the top
+                $(window).scrollTop(0);
                 $(".preloader").show();
+            });
+        });
+
+        //when the user presses reload, bring the user to the top of the page
+        $(document).ready(function () {
+            $(window).on('beforeunload', function () {
+                $(window).scrollTop(0);
+                // disable scroll
+                $("body").css("overflow", "hidden");
             });
         });
     </script>
@@ -48,11 +69,11 @@
 
         <!-- If no errors from vm's, then show flask flashed msgs instead -->
     {% else %}
-        <div class="container mt-5">
-            <div class="row mt-5">
-                <div class="col-12 mx-auto">
-                    {% with messages = get_flashed_messages() %}
-                        {% if messages %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="container mt-5">
+                    <div class="row mt-5">
+                        <div class="col-12 mx-auto">
                             {% for message in messages %}
                                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                     <strong>Warning:</strong> {{ message }}
@@ -60,16 +81,25 @@
                                             aria-label="Close"></button>
                                 </div>
                             {% endfor %}
-                        {% endif %}
-                    {% endwith %}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            {% endif %}
+        {% endwith %}
     {% endif %}
 
     <!-- ------------------------- APP AREA ------------------------- -->
 
     <section class="query_form_group pt-5 pb-3">
+
+        <div class="container">
+            <div class="row mt-5 pt-5 pb-3">
+                <div class="col-12 mx-auto mb-3 text-center">
+                    <h1 id="app-title">{{ user.name }}'s CSai Interface</h1>
+                    <h5>You can ask any Computer Science related question!</h5>
+                </div>
+            </div>
+        </div>
 
         <div class="justify-content-center align-items-center h-100 p-2 form-body mx-auto">
 
@@ -101,8 +131,7 @@
                             </button>
                         </div>
 
-                        <textarea id="output" class="my-4" rows="8" readonly>{% if resp_text %}
-                            {{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+                        <textarea id="output" class="my-4" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
 
                     </div>
                 </div>

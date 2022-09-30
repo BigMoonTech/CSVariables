@@ -1,17 +1,7 @@
 """ A small library of helper functions. """
-from functools import wraps
 from typing import Optional
 
-from flask import redirect
 from requests import get
-
-
-def try_int(text) -> int:
-    try:
-        return int(text)
-    # todo: add more specific exceptions
-    except:
-        return 0
 
 
 def get_ip_address() -> Optional[str]:

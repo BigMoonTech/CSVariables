@@ -6,10 +6,18 @@
 
 section.cool-stuff {
     color: #E94560;
+    background-color: #c9d3dc9e;
 }
 
-.title, .subtitle {
+.title {
     color: #E94560;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+}
+
+.subtitle {
+    color: #646c85;
+    font-style: italic;
 }
 
 .hero {
@@ -18,9 +26,19 @@ section.cool-stuff {
     background-color: #fbfbfb;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 155px) {
     h1 {
-        font-size: 5rem;
+        font-size: 2.5rem;
+    }
+
+    h4 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 480px) {
+    h1 {
+        font-size: 4rem;
     }
 
     h4 {
@@ -28,6 +46,15 @@ section.cool-stuff {
     }
 }
 
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 6rem;
+    }
+
+    h4 {
+        font-size: 3rem;
+    }
+}
 
 .hero, .query_form_group {
     color: #E94560;

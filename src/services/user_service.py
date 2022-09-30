@@ -1,7 +1,7 @@
 import re
 from uuid import uuid4
 from datetime import datetime
-from typing import Optional, Tuple, Any
+from typing import Optional
 import src.db_models.db_session as db_session
 from src.db_models.users import User
 from src.db_models.completions import Completion
@@ -215,7 +215,10 @@ def get_unregistered_user_by_ip(ip_address: str):
 
 def update_email_confirmation(email: str, confirmed: bool = False) -> Optional[User]:
     """ Update the email confirmed status of a user """
-    if not email.strip():
+    try:
+        if not email.strip():
+            return None
+    except AttributeError:
         return None
 
     session = db_session.create_session()
@@ -232,4 +235,4 @@ def update_email_confirmation(email: str, confirmed: bool = False) -> Optional[U
 
     session.commit()
     session.close()
-    return user if user else None
+    return user
