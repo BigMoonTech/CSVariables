@@ -173,6 +173,8 @@ def get_completions_by_uuid(user_id: str = None) -> Optional[list[Completion]]:
     completions = session.query(Completion).filter(Completion.user_id == user_id).all()
     session.close()
 
+    # todo - move this to the template instead of doing it here because I don't really like the look of the fake table
+    # These completions are shown in a user's history table, so if they don't have any I want to show a fake one
     if len(completions) == 0:
         return create_empty_completion()
 

@@ -85,3 +85,18 @@ def test_integration_add_completion_to_db_returns_false_with_duplicate_completio
             from src.services.completion_service import add_completion_to_db
             add_completion_to_db(mock_response.return_value, "test prompt", user_id="test user")
             assert not add_completion_to_db(mock_response.return_value, "test prompt", user_id="test user")
+
+
+def test_integration_get_completion_by_completion_id(client):
+    with flask_app.app_context():
+        patch_target = "src.services.completion_service.validated_openai_response"
+        with patch(patch_target) as mock_response:
+            mock_response.return_value = FAKE_COMPLETION
+
+            from src.services.completion_service import add_completion_to_db, get_completion_by_completion_id
+            from src.db_models.completions import Completion
+
+            add_completion_to_db(mock_response.return_value, "test prompt", user_id="test user")
+            completion = get_completion_by_completion_id("cmpl-test_id")
+            assert completion is not None
+            assert type(completion) == Completion
