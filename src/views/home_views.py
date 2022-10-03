@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect
+from flask import Blueprint, redirect, current_app
 from src.infrastructure.view_modifier import response
 from src.view_models.home.home_viewmodel import HomeViewModel
 from src.services import completion_service as cs
@@ -27,21 +27,26 @@ def index_post():
     viewmodel.prompt = viewmodel.request_dict.query.strip()
     viewmodel.validate()
 
-    if viewmodel.error is None:
-        resp = cs.call_openai(viewmodel.prompt)
-
-        # todo: (todo is in the completion service) handle a no response error from openai
-
-        viewmodel.resp_text = cs.get_choices_text(resp)
-
-        cs.add_completion_to_db(resp, viewmodel.prompt, viewmodel.ip_address)
-
-        # Update unregistered user table
-        if us.update_unregistered_user_calls(viewmodel.ip_address) is None:
-            viewmodel.error = 'There was an error updating your unregistered user data.'
-            # todo: log this type of error
-    else:
+    if viewmodel.error:
         viewmodel.resp_text = viewmodel.error
+
+    else:
+        resp = cs.validated_openai_response(viewmodel.prompt)
+        if not isinstance(resp, dict):
+            viewmodel.error = resp
+        else:
+            viewmodel.resp_text = cs.get_choices_text(resp)
+
+            if not cs.add_completion_to_db(resp, viewmodel.prompt, viewmodel.ip_address):
+                current_app.logger.error('Failed to add an unregistered user completion to the database.')
+                # I want the user to still see their query results, so I'm not setting viewmodel.error here.
+
+            # Update unregistered user table
+            elif us.update_unregistered_user_calls(viewmodel.ip_address) is None:
+                # if this happens, it's a big deal, so I'm logging it
+                current_app.logger.error("There was an error updating the unregistered user's remaining calls.")
+                viewmodel.error = 'There was an error updating your unregistered user data. Please create an account ' \
+                                  'to view your saved your completions.'
 
     return viewmodel.to_dict()
 

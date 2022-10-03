@@ -1,6 +1,5 @@
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
-
 from src.db_models.base_model import SqlAlchemyBase
 
 __factory = None
@@ -8,10 +7,6 @@ __factory = None
 
 def global_init(db_file: str):
     global __factory
-
-    # if factory has already been called, no need to call it again, so return
-    if __factory:
-        return
 
     # validate db_file is not whitespace or omitted altogether
     if not db_file or not db_file.strip():
@@ -36,8 +31,6 @@ def global_init(db_file: str):
 # noinspection PyCallingNonCallable
 def create_session() -> orm.Session:
     global __factory
-
     session: orm.Session = __factory()
     session.expire_on_commit = False
-
     return session

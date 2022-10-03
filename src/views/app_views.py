@@ -29,29 +29,33 @@ def app_post():
     viewmodel = AppViewModel()
 
     if viewmodel.user_id is None:
-        flash('Please login in to access the app.')
+        flash('Please login to access the application.')
         return redirect('/account/login')
 
     viewmodel.prompt = viewmodel.request_dict.query.strip()
     viewmodel.validate()
 
-    if viewmodel.error is None:
-
-        resp = cs.call_openai(viewmodel.prompt)
-
-        # todo: (handle a no response error from openai, or a bad response)
-        cs.validate_openai_response(resp)
-
-        viewmodel.resp_text = cs.get_choices_text(resp)
-
-        cs.add_completion_to_db(resp, viewmodel.prompt, viewmodel.ip_address, viewmodel.user_id)
-
-        # Update registered user table
-        if us.update_registered_user_calls(viewmodel.user_id) is None:
-            viewmodel.error = 'There was an error updating your remaining calls. Please contact support.'
-            current_app.logger.error("There was an error updating the user's remaining calls.")
+    if viewmodel.error:
+        viewmodel.resp_text = viewmodel.error
 
     else:
-        viewmodel.resp_text = viewmodel.error
+
+        resp = cs.validated_openai_response(viewmodel.prompt)
+
+        if not isinstance(resp, dict):
+            viewmodel.error = resp
+        else:
+            viewmodel.resp_text = cs.get_choices_text(resp)
+
+            # record the completion in the database
+            if not cs.add_completion_to_db(resp, viewmodel.prompt, viewmodel.ip_address, viewmodel.user_id):
+                current_app.logger.error('Failed to add completion to the database.')
+                viewmodel.error = 'There was an error saving your completion. Please try again.'
+
+            # Update registered user table
+            elif us.update_registered_user_calls(viewmodel.user_id) is None:
+                # if this happens, it's a big deal, (infinite calls is bad mmkay) so I'm logging it
+                current_app.logger.error("There was an error updating the user's remaining calls.")
+                viewmodel.error = 'There was an error updating your remaining calls. Please contact support.'
 
     return viewmodel.to_dict()

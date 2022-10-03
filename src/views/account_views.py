@@ -138,7 +138,7 @@ def unconfirmed():
 def confirm_email(token):
     viewmodel = ActivationViewModel()
     try:
-        email = confirm_token(token).lower()  # will raise AttributeError if token is invalid
+        email = confirm_token(token).lower()  # will raise AttributeError if token is invalid i.e. [None.lower()]
 
         # if logged in, and if the token is valid then update the user's confirmed field
         if viewmodel.user_id:

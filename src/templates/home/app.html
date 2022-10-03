@@ -131,7 +131,7 @@
                             </button>
                         </div>
 
-                        <textarea id="output" class="my-4" rows="8" readonly>{% if resp_text %}{{ " ".join(resp_text.split()).strip() }}{% elif error %}{{ error }}{% endif %}</textarea>
+                        <textarea id="output" class="my-4" rows="8" readonly>{% if error %}{{ error }}{% elif resp_text %}{{ " ".join(resp_text.split()).strip() }}{% endif %}</textarea>
 
                     </div>
                 </div>
