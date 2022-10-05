@@ -6,7 +6,7 @@ import werkzeug.wrappers
 
 
 def response(*, mimetype: str = None, template_file: str = None):
-    """Decorator to wrap a view function and return a response object."""
+    """Decorator to wrap a view function and force it to return a response object."""
 
     def response_inner(f):
 
@@ -34,11 +34,11 @@ def response(*, mimetype: str = None, template_file: str = None):
                 raise Exception(
                     "Invalid return type {}, we expected a dict as the return value.".format(type(response_val)))
 
-            # If template_file is set, render the template
+            # sets up what template to render, and unpacks the variables, args, etc. to be passed into the template
             if template_file:
                 response_val = flask.render_template(template_file, **response_val)
 
-            # Create a response object from the response value
+            # useful for forcing the return value of a view method to a response (for the decorator)
             resp = flask.make_response(response_val)
             resp.model = model
             if mimetype:
