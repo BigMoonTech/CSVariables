@@ -37,10 +37,6 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
 
     user.name = name
     user.email = email
-
-    if not validate_password(password):
-        return None
-
     user.hashed_pw = hash_text(password)
     user.allowed_monthly_calls = 100
     user.calls_made = 0
@@ -49,7 +45,7 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
     session = db_session.create_session()
     session.add(user)
     session.commit()
-
+    session.close()
     return user
 
 
@@ -117,8 +113,10 @@ def update_password(user_id: str, password: str) -> tuple[None, str] | tuple[Use
     :return: A tuple containing the user and None if successful, or None and an error message if not
     """
 
+    # todo: move this password validation to the view model
     if not validate_password(password):
-        error = 'Password must be at least 6 characters, contain a number, and contain only !@#%&'
+        error = 'Check password requirements... At least 6 characters, one number, ' \
+                'one letter, only the special characters: !@.-_'
         return None, error
 
     session = db_session.create_session()
@@ -133,13 +131,12 @@ def update_password(user_id: str, password: str) -> tuple[None, str] | tuple[Use
         return None, 'User not found'
 
 
-def validate_password(password: str) -> Optional[bool]:
+def validate_password(password: str) -> bool:
     """ Validate a user's password """
-    # regex pattern to check if password is valid (6 characters, a number, a letter, and only !@#%& allowed)
-    password_requirements = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#%&]{6,}$'
+    # regex pattern to check if password is valid (6 characters, a number, a letter, and only !@.-_ allowed)
+    password_requirements = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@.-_]{6,}$'
     if not re.match(password_requirements, password):
-        return None
-
+        return False
     return True
 
 

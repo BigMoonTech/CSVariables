@@ -18,7 +18,7 @@ def __hash_text(text: str) -> str:
 
 def get_user_id_via_auth_cookie(request: Request) -> Optional[str]:
     if auth_cookie_name not in request.cookies:
-        print("No auth cookie found in request")
+        # print("No auth cookie found in request")
         return None
 
     val = request.cookies[auth_cookie_name]
