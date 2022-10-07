@@ -1,6 +1,6 @@
 # CSai
 
-#### Video Demo:  <URL HERE>
+#### Video Demo: [My CS50 Final Project](https://youtu.be/0OEje_ZKKV0)
 
 #### Description:  An A.I. powered Computer Science tutor. Built with Flask, SqlAlchemy, Python, HTML, CSS, Bootstrap 5, JavaScript, and Jquery.
 
